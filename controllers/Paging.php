@@ -24,14 +24,28 @@ class Paging_Controller extends Common_Controller {
         switch ($this->className):
             case 'queue':
                 $class = new Queue_Controller();
-                if ($apiType == 'GET'):
-                    $result = $class->getAllActiveQueue();
+
+                if (isset($_REQUEST['mobile'])):
+                    if ($apiType == 'GET'):
+                        $values = $_REQUEST['values'];
+                        $result = $class->setQueueNoGet($values);
+                    endif;
+                else:
+                    if ($apiType == 'GET'):
+                        $result = $class->getAllActiveQueue();
+                    endif;
+                    if ($apiType == 'POST'):
+                        $values = $_REQUEST['values'];
+                        $result = array(
+                            'message' => 'Registeration Success, Your Queue Number is',
+                            'queue_no' => $this->sequenceNo($class->setQueueNo($values))
+                        );
+                    endif;
                 endif;
 
-                if ($apiType == 'POST'):
-                    $values = $_REQUEST['values'];
-                    $result = $class->setQueueNo($values);
-                endif;
+
+
+
 
                 break;
             case 'verify':

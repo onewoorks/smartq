@@ -38,7 +38,7 @@ class Queue_Model {
         $queno = $this->generateQueno($org_id);
         $status = 'noshow';
         $customer_id = $values['customer_id'];
-        $register_type = 'mobile';
+        $register_type = $values['register_type'];
         $customer_ip = $_SERVER['REMOTE_ADDR'];
         $show_status = null;
         $code_authorize = $values['code_authorize'];
