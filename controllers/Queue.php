@@ -37,8 +37,8 @@ class Queue_Controller extends Common_Controller {
         $val['customer_id'] = $customer_id;
         $val['code_authorize'] = $this->generateRandomString();
         $que = new Queue_Model();
-        $result = $que->createQueue($val);
-        return $result;
+        $result = $que->createQueueWithQR($val);
+        return $result ;
     }
 
 }

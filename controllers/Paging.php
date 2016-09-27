@@ -26,8 +26,9 @@ class Paging_Controller extends Common_Controller {
                 $class = new Queue_Controller();
 
                 if (isset($_REQUEST['mobile'])):
-                    if ($apiType == 'GET'):
-                        $values = $_REQUEST['values'];
+                    
+                    if ($apiType == 'GET'):                    
+                        $values = $_REQUEST;                       
                         $result = $class->setQueueNoGet($values);
                     endif;
                 else:

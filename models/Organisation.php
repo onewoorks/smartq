@@ -18,7 +18,7 @@ class Organisation_Model {
         $sql = "SELECT DISTINCT(o.id) AS organisation_id, o.*,
 IF((SELECT (queue_no) FROM queue WHERE org_id=o.id ORDER BY TIMESTAMP DESC LIMIT 1) > 0 , (SELECT (queue_no) FROM queue WHERE org_id=o.id ORDER BY TIMESTAMP DESC LIMIT 1),0)AS queno
 FROM organisation o
-LEFT JOIN queue q ON q.org_id = o.id";
+LEFT JOIN queue q ON q.org_id = o.id LIMIT 4";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -30,7 +30,7 @@ LEFT JOIN queue q ON q.org_id = o.id";
 (SELECT queue_no FROM queue WHERE org_id=id ORDER BY TIMESTAMP DESC LIMIT 1) as queue
 FROM organisation WHERE id=$org_id";
         $sqlQueue = "SELECT queue_no FROM queue WHERE org_id='$org_id' ORDER BY timestamp DESC LIMIT 1";
-        
+
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();

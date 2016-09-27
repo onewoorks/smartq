@@ -1,6 +1,6 @@
 <?php
 
-class Queue_Model {
+class Queue_Model extends Common_Controller {
 
     public $org_id;
     public $code_authorize;
@@ -50,6 +50,26 @@ class Queue_Model {
         $this->db->queryexecute();
         return $queno;
     }
+    
+    
+    public function createQueueWithQR(array $values) {
+        $org_id = $values['org_id'];
+        $queno = $this->generateQueno($org_id);
+        $status = 'noshow';
+        $customer_id = $values['customer_id'];
+        $register_type = $values['register_type'];
+        $customer_ip = $_SERVER['REMOTE_ADDR'];
+        $show_status = null;
+        $code_authorize = $values['code_authorize'];
+        $sql = "INSERT INTO queue
+                (org_id,queue_no,status,customer_id,register_type,ip,show_status,code_authorize) VALUES
+                ('$org_id','$queno','$status','$customer_id','$register_type','$customer_ip','$show_status','$code_authorize')";
+        $this->db->connect();
+        $this->db->prepare($sql);
+        $this->db->queryexecute();
+        return array('queue_no'=>$this->sequenceNo($queno), 'code'=>$code_authorize);
+    }
+    
 
     private function checkCode() {
         $sql = "SELECT * FROM queue WHERE code_authorize='$this->code_authorize' AND org_id='$this->org_id'";
