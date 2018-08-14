@@ -1,13 +1,13 @@
 <?php
 
-class Organisation_Model {
+class Imigresen_Model {
 
     public function __construct() {
         $this->db = new Mysql_Driver();
     }
 
     function getAllOrganisation($type) {
-        $sql = "SELECT * FROM organisation";
+        $sql = "SELECT * FROM imi_organisation";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -15,10 +15,9 @@ class Organisation_Model {
     }
 
     function getAllOrganisationWithQue() {
-        $sql = "SELECT DISTINCT(o.id) AS organisation_id, o.*, "
-                . "IF((SELECT (queue_no) FROM queue WHERE org_id=o.id ORDER BY TIMESTAMP DESC LIMIT 1) > 0, (SELECT (queue_no) FROM queue WHERE org_id=o.id ORDER BY TIMESTAMP DESC LIMIT 1),0)AS queno "
-                . "FROM organisation o "
-                . "LEFT JOIN queue q ON q.org_id = o.id LIMIT 10";
+        $sql = "SELECT *, "
+                . "(SELECT count(id) FROM queue WHERE DATE(timestamp)=DATE(now())) as total_queue "
+                . "FROM imi_organisation";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -40,7 +39,7 @@ class Organisation_Model {
     }
     
     function getOrganisation($org_id){
-        $sql = "SELECT * FROM organisation WHERE id=$org_id";
+        $sql = "SELECT * FROM imi_organisation WHERE id=$org_id";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
