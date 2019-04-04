@@ -26,12 +26,12 @@ class Organisation_Model {
     }
     
     function getOrganisationInfoAdd($org_id){
-        $sql = "UPDATE organisation SET que_no=(que_no+1) WHERE id=$org_id";
+        $sql = "UPDATE imi_organisation SET que_no=(que_no+1) WHERE id=$org_id";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
         
-        $sql2 = "SELECT *, date_format(now() + interval (que_no-current_no)*10 minute,'%h:%i %p') as estimate FROM organisation WHERE id=$org_id";
+        $sql2 = "SELECT *, date_format(now() + interval (que_no-current_no)*10 minute,'%h:%i %p') as estimate FROM imi_organisation WHERE id=$org_id";
         $this->db->connect();
         $this->db->prepare($sql2);
         $this->db->queryexecute();

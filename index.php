@@ -1,4 +1,5 @@
 <?php
+
 header("Access-Control-Allow-Origin: *");
 
 require 'libraries/drivers/mysql.php';
@@ -32,6 +33,7 @@ function deliver_response($format, $api_response) {
     // Set HTTP Response
     header('HTTP/1.1 ' . $api_response['status'] . ' ' . $http_response_code[$api_response['status']]);
     // Process different content types
+    
     switch ($format):
         case 'json':
             header('Content-Type: application/json; charset=utf-8');
@@ -55,9 +57,8 @@ function deliver_response($format, $api_response) {
             break;
 
     endswitch;
-     
+
     exit;
-     
 }
 
 // Define whether an HTTPS connection is required
@@ -143,7 +144,7 @@ function __autoload($className) {
 
 $param_url = 3;
 $params = explode('/', $_SERVER['REQUEST_URI']);
-//print_r($params);
+
 $class_target = ((count($params) + 1) == 3) ? $params[$param_url] : $_REQUEST['method'];
 
 $class = ucfirst($class_target) . '_Controller';
@@ -165,7 +166,5 @@ $params = explode('/', $_SERVER['REQUEST_URI']);
 
 // --- Step 4: Deliver Response
 // Return Response to browser
-$get_format =  (!isset($_GET['format'])) ? 'json' : $_GET['format'] ;
+$get_format = (isset($_GET['format'])) ? $_GET['format'] : 'json';
 deliver_response($get_format, $response);
-?>
-			

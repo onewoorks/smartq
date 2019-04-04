@@ -65,32 +65,32 @@ class Paging_Controller extends Common_Controller {
                 endif;
 
                 break;
-//            case 'organisation':
-//                $class = new Organisation_Controller();
-//
-//                if (isset($_REQUEST['id'])):
-//                    $result = Organisation_Controller::getOrganisationInfo($_REQUEST['id']);
-//                else:
-//                    $result = $class->getAllOrganisationWithQue();
-//                endif;
-//
-//                if (isset($_REQUEST['addid'])):
-//                    $result = $class->updateQue($_REQUEST['addid']);
-//                endif;
-//
-//                if (isset($_REQUEST['distance'])):
-//                    $result = $class->getAllOrganisationByDistance();
-//                endif;
-//
-//                if (isset($_REQUEST['quesort'])):
-//                    $result = $class->getAllOrganisationByQueSort();
-//                endif;
-//
-//                if (isset($_REQUEST['alphabet'])):
-//                    $result = $class->getAllOrganisationByAlphaSort();
-//                endif;
+            case 'organisationa':
+                $class = new Organisation_Controller();
 
-//                break;
+                if (isset($_REQUEST['id'])):
+                    $result = Organisation_Controller::getOrganisationInfo($_REQUEST['id']);
+                else:
+                    $result = $class->getAllOrganisationWithQue();
+                endif;
+
+                if (isset($_REQUEST['addid'])):
+                    $result = $class->updateQue($_REQUEST['addid']);
+                endif;
+
+                if (isset($_REQUEST['distance'])):
+                    $result = $class->getAllOrganisationByDistance();
+                endif;
+
+                if (isset($_REQUEST['quesort'])):
+                    $result = $class->getAllOrganisationByQueSort();
+                endif;
+
+                if (isset($_REQUEST['alphabet'])):
+                    $result = $class->getAllOrganisationByAlphaSort();
+                endif;
+
+                break;
             default:
                 $classname = ucfirst($this->className) . '_Controller';
                 $headers = $this->getAllHttpHeaders();

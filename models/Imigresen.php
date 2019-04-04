@@ -16,8 +16,10 @@ class Imigresen_Model {
 
     function getAllOrganisationWithQue() {
         $sql = "SELECT *, "
-                . "(SELECT count(id) FROM queue WHERE DATE(timestamp)=DATE(now())) as total_queue "
-                . "FROM imi_organisation";
+                . "(SELECT count(id) FROM queue WHERE DATE(timestamp)=DATE(now())) as total_queue, "
+                . "(que_no - current_no) as cepat "
+                . "FROM imi_organisation "
+                . "ORDER BY cepat ASC";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
@@ -39,11 +41,28 @@ class Imigresen_Model {
     }
     
     function getOrganisation($org_id){
-        $sql = "SELECT * FROM imi_organisation WHERE id=$org_id";
+//        $sql = "SELECT * FROM imi_organisation WHERE id=$org_id";
+        $sql = "SELECT *,
+            (SELECT queue_no FROM queue WHERE org_id=id ORDER BY TIMESTAMP DESC LIMIT 1) as queue,
+            date_format(now() + interval (que_no-current_no)*10 minute,'%h:%i %p') as estimate
+            FROM imi_organisation WHERE id=$org_id";
+        
+        $sqlQueue = "SELECT queue_no FROM queue WHERE org_id='$org_id' ORDER BY timestamp DESC LIMIT 1";
+        
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();
-        return $this->db->fetchOut('array');
+        $org_info = $this->db->fetchOut('array');
+        $result = ($org_info) ? $org_info[0] : false;
+
+        if ($result):
+            $this->db->prepare($sqlQueue);
+            $this->db->queryexecute();
+            $org_queue = $this->db->fetchOut('array');
+            $org_info[0]['queue'] = ($org_queue) ? $org_queue[0]['queue_no'] : 0;
+        endif;
+
+        return ($result) ? $org_info[0] : false;
     }
 
     function getOrganisationInfo($org_id) {
@@ -87,7 +106,7 @@ class Imigresen_Model {
     }
     
     public function getAllOrganisationByAlphaSort(){
-        $sql = "SELECT * FROM organisation ORDER BY name ASC";
+        $sql = "SELECT * FROM imi_organisation ORDER BY name ASC";
         $this->db->connect();
         $this->db->prepare($sql);
         $this->db->queryexecute();

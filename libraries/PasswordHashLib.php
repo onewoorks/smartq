@@ -26,7 +26,7 @@
 # requirements (there can be none), but merely suggestions.
 #
 
-class PasswordHash {
+class PasswordHashLib {
 
     var $itoa64;
     var $iteration_count_log2;

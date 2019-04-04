@@ -1,0 +1,6 @@
+# Turn on the rewrite engine
+Options +FollowSymlinks
+RewriteEngine on
+
+# Request routing
+RewriteRule ^(.*)\.(html|json|xml)?$   index.php?method=$1&format=$2 [nc,qsa]

@@ -9,9 +9,9 @@ class Mysql_Driver {
 
     public function connect() {
         $host= 'localhost';
-        $user = 'iwang';
-        $password = '1234';
-        $database = 'smartq';
+        $user = 'root';
+        $password = 're^mp123';
+        $database = 'onewoork_smartq';
         try {
             $this->connection = new PDO("mysql:host=$host;dbname=$database", $user, $password);
             return TRUE;
@@ -77,6 +77,7 @@ class Mysql_Driver {
             }
             return $row;
         }
+        $this->disconnect();
         return FALSE;
     }
 
