@@ -7,11 +7,6 @@ database setup
  2. open *libraries/drivers/mysql.php*
  3. change line 13 - 16 accordingly
 
-	 *- $host = 'localhost';*
-	 *- $user = 'DATABASE_USERNAME';*
-	 *- $password = 'DATABASE_PASSWORD';*
-	 *- $database = 'DATABASE';* 
-
 ## test application
  1. open any internet browser
  2. go to *http://localhost/smartq/organisation.json?quesortImi*
