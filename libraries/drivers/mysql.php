@@ -1,64 +1,72 @@
 <?php
 header("Access-Control-Allow-Origin: *");
-class Mysql_Driver {
+class Mysql_Driver
+{
 
     private $connection;
     private $query;
     private $result;
     private $bind;
 
-    public function connect() {
-        $host= 'localhost';
-        $user = 'root';
-        $password = 're^mp123';
-        $database = 'onewoork_smartq';
+    public function connect()
+    {
+        $host = 'localhost';
+        $user = 'DATABASE_USERNAME';
+        $password = 'DATABASE_PASSWORD';
+        $database = 'DATABASE';
         try {
             $this->connection = new PDO("mysql:host=$host;dbname=$database", $user, $password);
-            return TRUE;
+            return true;
         } catch (PDOException $e) {
             $this->connection = null;
             echo $e->getMessage();
-            return FALSE;
+            return false;
         }
     }
 
-    public function dc(){
+    public function dc()
+    { }
 
+    public function disconnect()
+    {
+        $this->connection = null;
+        return true;
     }
 
-    public function disconnect() {
-       $this->connection = null;
-        return TRUE;
-    }
-
-    public function prepare($query) {
+    public function prepare($query)
+    {
         $this->query = $query;
-        return TRUE;
+        return true;
     }
 
-    public function insertPrepare($query){
+    public function insertPrepare($query)
+    {
         $this->bind = $this->connection->prepare($query);
     }
 
-    public function insertBind($column,$value){
-        $this->bind->bindValue($column,$value);
+    public function insertBind($column, $value)
+    {
+        $this->bind->bindValue($column, $value);
     }
 
-    public function insertExecute(){
+    public function insertExecute()
+    {
         $this->bind->execute();
     }
 
-    public function queryexecute() {
+    public function queryexecute()
+    {
         if (isset($this->query)) {
             $this->result = $this->connection->query($this->query);
 
-            return TRUE;
+            return true;
         }
-        return FALSE;
+        return false;
     }
 
 
-    public function fetchOut($type = 'object') {
+    public function fetchOut($type = 'object')
+    {
         if (isset($this->result)) {
             switch ($type) {
                 case 'array':
@@ -78,11 +86,11 @@ class Mysql_Driver {
             return $row;
         }
         $this->disconnect();
-        return FALSE;
+        return false;
     }
 
-    public function getLastId(){
+    public function getLastId()
+    {
         return $this->connection->lastInsertId();
     }
-
 }
