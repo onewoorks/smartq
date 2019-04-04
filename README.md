@@ -6,6 +6,8 @@ database setup
  1. import sql from *libraries/drivers/onewoork_smartq.sql*
  2. open *libraries/drivers/mysql.php*
  3. change line 13 - 16 accordingly
+
+
     $host = 'localhost';
     $user = 'DATABASE_USERNAME';
     $password = 'DATABASE_PASSWORD';
